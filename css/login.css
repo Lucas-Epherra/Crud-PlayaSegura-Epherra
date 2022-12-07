@@ -1,0 +1,88 @@
+.loginSite {
+    background-image: url('../imgs/Foto-de-Valen-Vitolla-1-750x536.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.titulo {
+    margin: 50px;
+    font-weight: 700;
+    padding: 15px;
+    background-color: rgba(22, 21, 21, 0.517);
+    border: solid black 1px;
+    border-radius: 15px;
+    color: rgb(255, 225, 0);
+}
+
+
+.loginBox {
+    background-color: rgba(22, 21, 21, 0.517);
+    padding: 50px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    height: fit-content;
+    border: solid rgba(255, 255, 255, 0.527) 2px;
+}
+
+.tituloLogin {
+    margin-top: 15px;
+    text-align: center;
+    color: rgb(255, 225, 0);
+}
+
+
+.formulario {
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+}
+
+
+.boton {
+    background-color: #dfe1df;
+    font-weight: 500;
+    padding: 6px;
+    margin: 7px;
+    border-radius: 10px;
+    color: black;
+}
+
+.inputs {
+    background-color: #fcfffdd1;
+    border: 0.5px solid black;
+    padding: 5px;
+    border-radius: 15px;
+    display: block;
+    width: 100%;
+    margin: 0px 0px 15px 0px;
+}
+
+.inputs::placeholder {
+    color: rgb(0, 0, 0);
+    font-weight: 400;
+}
+
+.inputs:focus {
+    background-color: #fafafa;
+}
+
+.inputs:hover {
+    background-color: #fafafa;
+    transition: 1ms;
+}
+
+
+.label {
+    font-weight: bold;
+    color: #fafafa;
+    padding: 3px;
+}

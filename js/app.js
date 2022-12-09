@@ -234,7 +234,7 @@ function nuevaInterv(e) {
         administrarIntervenciones.agregarInterv({ ...intervObj });
 
         //insertar nuevo registro en IndexedDB
-        const transaction = DB.transaction(['intervenciones', 'readwrite']);
+        const transaction = DB.transaction('intervenciones', 'readwrite');
 
         //habilitar el objectstore
         const objectStore = transaction.objectStore('intervenciones');

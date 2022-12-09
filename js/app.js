@@ -6,18 +6,67 @@ const marInput = document.querySelector('#mar');
 const vientoInput = document.querySelector('#viento');
 const codigoInput = document.querySelector('#codigo');
 
-// Contenedor para las citas
+// Contenedor para las intervenciones
 const contenedorInterv = document.querySelector('#intervenciones');
 
-// Formulario nuevas citas
+// Formulario nuevas intervenciones
 const formulario = document.querySelector('#nueva-intervencion')
 formulario.addEventListener('submit', nuevaInterv);
 
 let editando = false;
 
 
+function createDB() {
+    // creacion de la base de datos en version 1.0
+    const createDB = window.indexedDB.open('intervenciones', 1)
+
+    //si hay un error
+    createDB.onerror = function () {
+        console.log("Hubo un error")
+    }
+
+    // si todo va bien
+
+    createDB.onsuccess = function () {
+        console.log("Base de datos creada")
+
+        DB = createDB.result;
+
+    }
+
+    // definir esquema
+
+    createDB.onupgradeneeded = function (e) {
+        const db = e.target.result;
+
+        const objectStore = db.createObjectStore('intervenciones', {
+            keyPath: 'id',
+            autoIncrement: true
+        });
+
+        //Definir todas las columnas
+        objectStore.createIndex('puesto', 'puesto', { unique: false });
+        objectStore.createIndex('fecha', 'fecha', { unique: false });
+        objectStore.createIndex('hora', 'hora', { unique: false });
+        objectStore.createIndex('mar', 'mar', { unique: false });
+        objectStore.createIndex('viento', 'viento', { unique: false });
+        objectStore.createIndex('intervencion', 'intervencion', { unique: false });
+        objectStore.createIndex('id', 'id', { unique: true });
+
+        console.log('DB creada y ready')
+    }
+
+}
+
+
+window.onload = () => {
+    eventListeners();
+
+    createDB();
+}
+
 // Eventos
-eventListeners();
+
 function eventListeners() {
     fechaInput.addEventListener('change', datosInterv);
     horaInput.addEventListener('change', datosInterv);
@@ -32,69 +81,62 @@ const intervObj = [{
     puesto: '',
     mar: '',
     viento: '',
-    codigo:'',
-    hora:'',
+    codigo: '',
+    hora: '',
 }]
 
 function datosInterv(e) {
-    //  console.log(e.target.name) // Obtener el Input
+    // Obtener el Input
     intervObj[e.target.name] = e.target.value;
 }
 
 // CLasses
-class Intervenciones {
+class Intervenciones {
     constructor() {
         this.intervenciones = []
     }
     agregarInterv(interv) {
         this.intervenciones = [...this.intervenciones, interv];
-                
-        console.log(intervObj);
     }
     editarInterv(intervencionActualizada) {
-        this.intervenciones = this.intervenciones.map( interv => interv.id === intervencionActualizada.id ? intervencionActualizada : interv)
+        this.intervenciones = this.intervenciones.map(interv => interv.id === intervencionActualizada.id ? intervencionActualizada : interv)
     }
 
     eliminarInterv(id) {
-        this.intervenciones = this.intervenciones.filter( interv => interv.id !== id);
+        this.intervenciones = this.intervenciones.filter(interv => interv.id !== id);
     }
 }
-
-
-
-
-
 class UI {
     imprimirAlerta(mensaje, tipo) {
         // Crea el div
         const divMensaje = document.createElement('div');
         divMensaje.classList.add('text-center', 'alert', 'd-block', 'col-12');
-        
+
         // Si es de tipo error agrega una clase
-        if(tipo === 'error') {
-             divMensaje.classList.add('alert-danger');
+        if (tipo === 'error') {
+            divMensaje.classList.add('alert-danger');
         } else {
-             divMensaje.classList.add('alert-success');
+            divMensaje.classList.add('alert-success');
         }
 
         // Mensaje de error
         divMensaje.textContent = mensaje;
 
         // Insertar en el DOM
-        document.querySelector('#contenido').insertBefore( divMensaje , document.querySelector('.agregar-intervencion'));
+        document.querySelector('#contenido').insertBefore(divMensaje, document.querySelector('.agregar-intervencion'));
 
         // Quitar el alert despues de 3 segundos
-        setTimeout( () => {
+        setTimeout(() => {
             divMensaje.remove();
         }, 3000);
-   }
+    }
 
-   imprimirIntervenciones({intervenciones}) {
-       
+    imprimirIntervenciones({ intervenciones }) {
+
         this.limpiarHTML();
 
         intervenciones.forEach(interv => {
-            const {fecha, hora, puesto, mar, viento, codigo, id} = interv;
+            const { fecha, hora, puesto, mar, viento, codigo, id } = interv;
 
             const divInterv = document.createElement('div');
             divInterv.classList.add('interv', 'p-3');
@@ -111,7 +153,7 @@ class UI {
 
             const horaParrafo = document.createElement('p');
             horaParrafo.innerHTML = `<span class="font-weight-bolder">Hora del suceso: </span> ${hora}`;
-            
+
             const marParrafo = document.createElement('p');
             marParrafo.innerHTML = `<span class="font-weight-bolder">Estado del mar: </span> ${mar}`;
 
@@ -120,8 +162,8 @@ class UI {
 
             const codigoParrafo = document.createElement('p');
             codigoParrafo.innerHTML = `<span class="font-weight-bolder">Codigo de intervencion: </span> ${codigo}`;
-            
-            
+
+
 
             // Agregar un botón de eliminar...
             const btnEliminar = document.createElement('button');
@@ -147,14 +189,14 @@ class UI {
             divInterv.appendChild(btnEditar)
 
             contenedorInterv.appendChild(divInterv);
-        });    
-   }
+        });
+    }
 
-   limpiarHTML() {
-        while(contenedorInterv.firstChild) {
+    limpiarHTML() {
+        while (contenedorInterv.firstChild) {
             contenedorInterv.removeChild(contenedorInterv.firstChild);
         }
-   }
+    }
 }
 
 const ui = new UI();
@@ -163,18 +205,18 @@ const administrarIntervenciones = new Intervenciones();
 function nuevaInterv(e) {
     e.preventDefault();
 
-    const {fecha, hora, puesto, mar, viento, codigo} = intervObj;
+    const { fecha, hora, puesto, mar, viento, codigo } = intervObj;
 
     // Validar
-    if( fecha === '' || hora === '' || puesto === '' || mar === '' || viento === ''  || codigo === '') {
+    if (fecha === '' || hora === '' || puesto === '' || mar === '' || viento === '' || codigo === '') {
         ui.imprimirAlerta('Todos los campos son Obligatorios', 'error')
 
         return;
     }
 
-    if(editando) {
+    if (editando) {
         // Estamos editando
-        administrarIntervenciones.editarInterv( {...intervObj} );
+        administrarIntervenciones.editarInterv({ ...intervObj });
 
         ui.imprimirAlerta('Guardado Correctamente');
 
@@ -187,16 +229,29 @@ function nuevaInterv(e) {
 
         // Generar un ID único
         intervObj.id = Date.now();
-        
-        // Añade la nueva cita
-        administrarIntervenciones.agregarInterv({...intervObj});
 
-        // Mostrar mensaje de que todo esta bien...
-        ui.imprimirAlerta('Se agregó correctamente')
+        // Añade la nueva intervencion
+        administrarIntervenciones.agregarInterv({ ...intervObj });
+
+        //insertar nuevo registro en IndexedDB
+        const transaction = DB.transaction(['intervenciones', 'readwrite']);
+
+        //habilitar el objectstore
+        const objectStore = transaction.objectStore('intervenciones');
+
+        //insertar en la bd
+        objectStore.add(intervObj);
+
+        transaction.oncomplete = function () {
+            console.log('Intervencion Agregada')
+
+            // Mostrar mensaje de que todo esta bien...
+            ui.imprimirAlerta('Se agregó correctamente')
+        }
+
     }
 
-
-    // Imprimir el HTML de citas
+    // Imprimir el HTML de intervenciones
     ui.imprimirIntervenciones(administrarIntervenciones);
 
     // Reinicia el objeto para evitar futuros problemas de validación
@@ -226,7 +281,7 @@ function eliminarInterv(id) {
 
 function cargarEdicion(interv) {
 
-    const {fecha, hora, puesto,mar, viento, codigo, id } = interv;
+    const { fecha, hora, puesto, mar, viento, codigo, id } = interv;
 
     // Reiniciar el objeto
     intervObj.fecha = fecha;

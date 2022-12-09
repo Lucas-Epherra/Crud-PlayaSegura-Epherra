@@ -15,10 +15,10 @@ formulario.addEventListener('submit', nuevaInterv);
 
 let editando = false;
 
-
+// IndexedDB -- Creacion
 function createDB() {
     // creacion de la base de datos en version 1.0
-    const createDB = window.indexedDB.open('intervenciones', 1)
+    const createDB = window.indexedDB.open('event', 1)
 
     //si hay un error
     createDB.onerror = function () {
@@ -32,6 +32,8 @@ function createDB() {
 
         DB = createDB.result;
 
+        // mostrar intervenciones al cargar (con indexedDB listo)
+        ui.imprimirIntervenciones();
     }
 
     // definir esquema
@@ -39,7 +41,7 @@ function createDB() {
     createDB.onupgradeneeded = function (e) {
         const db = e.target.result;
 
-        const objectStore = db.createObjectStore('intervenciones', {
+        const objectStore = db.createObjectStore('event', {
             keyPath: 'id',
             autoIncrement: true
         });
@@ -50,10 +52,10 @@ function createDB() {
         objectStore.createIndex('hora', 'hora', { unique: false });
         objectStore.createIndex('mar', 'mar', { unique: false });
         objectStore.createIndex('viento', 'viento', { unique: false });
-        objectStore.createIndex('intervencion', 'intervencion', { unique: false });
+        objectStore.createIndex('codigo', 'codigo', { unique: false });
         objectStore.createIndex('id', 'id', { unique: true });
 
-        console.log('DB creada y ready')
+        console.log('DB creada y lista')
     }
 
 }
@@ -131,65 +133,76 @@ class UI {
         }, 3000);
     }
 
-    imprimirIntervenciones({ intervenciones }) {
+    imprimirIntervenciones() {
 
         this.limpiarHTML();
 
-        intervenciones.forEach(interv => {
-            const { fecha, hora, puesto, mar, viento, codigo, id } = interv;
+        //leer el contenido de la base de datos
+        const objectStore = DB.transaction('event').objectStore('event');
 
-            const divInterv = document.createElement('div');
-            divInterv.classList.add('interv', 'p-3');
-            divInterv.dataset.id = id;
+        objectStore.openCursor().onsuccess = function (e) {
 
-            // SCRIPTING DE LOS ELEMENTOS...
+           const cursor = e.target.result;
 
-            const puestoParrafo = document.createElement('h2');
-            puestoParrafo.classList.add('card-title', 'font-weight-bolder');
-            puestoParrafo.innerHTML = `${puesto}`;
+            if (cursor) {
+                const { fecha, hora, puesto, mar, viento, codigo, id } = cursor.value;
 
-            const fechaParrafo = document.createElement('p');
-            fechaParrafo.innerHTML = `<span class="font-weight-bolder">Fecha: </span> ${fecha}`;
+                const divInterv = document.createElement('div');
+                divInterv.classList.add('interv', 'p-3');
+                divInterv.dataset.id = id;
 
-            const horaParrafo = document.createElement('p');
-            horaParrafo.innerHTML = `<span class="font-weight-bolder">Hora del suceso: </span> ${hora}`;
+                // SCRIPTING DE LOS ELEMENTOS...
 
-            const marParrafo = document.createElement('p');
-            marParrafo.innerHTML = `<span class="font-weight-bolder">Estado del mar: </span> ${mar}`;
+                const puestoParrafo = document.createElement('h2');
+                puestoParrafo.classList.add('card-title', 'font-weight-bolder');
+                puestoParrafo.innerHTML = `${puesto}`;
 
-            const vientoParrafo = document.createElement('p');
-            vientoParrafo.innerHTML = `<span class="font-weight-bolder">Direccion del viento: </span> ${viento}`;
+                const fechaParrafo = document.createElement('p');
+                fechaParrafo.innerHTML = `<span class="font-weight-bolder">Fecha: </span> ${fecha}`;
 
-            const codigoParrafo = document.createElement('p');
-            codigoParrafo.innerHTML = `<span class="font-weight-bolder">Codigo de intervencion: </span> ${codigo}`;
+                const horaParrafo = document.createElement('p');
+                horaParrafo.innerHTML = `<span class="font-weight-bolder">Hora del suceso: </span> ${hora}`;
+
+                const marParrafo = document.createElement('p');
+                marParrafo.innerHTML = `<span class="font-weight-bolder">Estado del mar: </span> ${mar}`;
+
+                const vientoParrafo = document.createElement('p');
+                vientoParrafo.innerHTML = `<span class="font-weight-bolder">Direccion del viento: </span> ${viento}`;
+
+                const codigoParrafo = document.createElement('p');
+                codigoParrafo.innerHTML = `<span class="font-weight-bolder">Codigo de intervencion: </span> ${codigo}`;
 
 
 
-            // Agregar un botón de eliminar...
-            const btnEliminar = document.createElement('button');
-            btnEliminar.onclick = () => eliminarInterv(id); // añade la opción de eliminar
-            btnEliminar.classList.add('btn', 'btn-danger', 'mr-2');
-            btnEliminar.innerHTML = 'Eliminar <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>'
+                // Agregar un botón de eliminar...
+                const btnEliminar = document.createElement('button');
+                btnEliminar.onclick = () => eliminarInterv(id); // añade la opción de eliminar
+                btnEliminar.classList.add('btn', 'btn-danger', 'mr-2');
+                btnEliminar.innerHTML = 'Eliminar <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>'
 
-            // Añade un botón de editar...
-            const btnEditar = document.createElement('button');
-            btnEditar.onclick = () => cargarEdicion(interv);
+                // Añade un botón de editar...
+                const btnEditar = document.createElement('button');
+                btnEditar.onclick = () => cargarEdicion(interv);
 
-            btnEditar.classList.add('btn', 'btn-info');
-            btnEditar.innerHTML = 'Editar <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>'
+                btnEditar.classList.add('btn', 'btn-info');
+                btnEditar.innerHTML = 'Editar <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>'
 
-            // Agregar al HTML
-            divInterv.appendChild(puestoParrafo);
-            divInterv.appendChild(fechaParrafo);
-            divInterv.appendChild(horaParrafo);
-            divInterv.appendChild(marParrafo);
-            divInterv.appendChild(vientoParrafo);
-            divInterv.appendChild(codigoParrafo);
-            divInterv.appendChild(btnEliminar)
-            divInterv.appendChild(btnEditar)
+                // Agregar al HTML
+                divInterv.appendChild(puestoParrafo);
+                divInterv.appendChild(fechaParrafo);
+                divInterv.appendChild(horaParrafo);
+                divInterv.appendChild(marParrafo);
+                divInterv.appendChild(vientoParrafo);
+                divInterv.appendChild(codigoParrafo);
+                divInterv.appendChild(btnEliminar)
+                divInterv.appendChild(btnEditar)
 
-            contenedorInterv.appendChild(divInterv);
-        });
+                contenedorInterv.appendChild(divInterv);
+
+                // ir al sgte elemento de la bd
+                cursor.continue();
+            }
+        }
     }
 
     limpiarHTML() {
@@ -234,10 +247,10 @@ function nuevaInterv(e) {
         administrarIntervenciones.agregarInterv({ ...intervObj });
 
         //insertar nuevo registro en IndexedDB
-        const transaction = DB.transaction('intervenciones', 'readwrite');
+        const transaction = DB.transaction('event', 'readwrite');
 
         //habilitar el objectstore
-        const objectStore = transaction.objectStore('intervenciones');
+        const objectStore = transaction.objectStore('event');
 
         //insertar en la bd
         objectStore.add(intervObj);
@@ -252,7 +265,7 @@ function nuevaInterv(e) {
     }
 
     // Imprimir el HTML de intervenciones
-    ui.imprimirIntervenciones(administrarIntervenciones);
+    ui.imprimirIntervenciones();
 
     // Reinicia el objeto para evitar futuros problemas de validación
     reiniciarObjeto();
@@ -276,7 +289,7 @@ function reiniciarObjeto() {
 function eliminarInterv(id) {
     administrarIntervenciones.eliminarInterv(id);
 
-    ui.imprimirIntervenciones(administrarIntervenciones)
+    ui.imprimirIntervenciones()
 }
 
 function cargarEdicion(interv) {

@@ -60,7 +60,6 @@ function createDB() {
 
 }
 
-
 window.onload = () => {
     eventListeners();
 
@@ -142,7 +141,7 @@ class UI {
 
         objectStore.openCursor().onsuccess = function (e) {
 
-           const cursor = e.target.result;
+            const cursor = e.target.result;
 
             if (cursor) {
                 const { fecha, hora, puesto, mar, viento, codigo, id } = cursor.value;
@@ -153,9 +152,8 @@ class UI {
 
                 // SCRIPTING DE LOS ELEMENTOS...
 
-                const puestoParrafo = document.createElement('h2');
-                puestoParrafo.classList.add('card-title', 'font-weight-bolder');
-                puestoParrafo.innerHTML = `${puesto}`;
+                const puestoParrafo = document.createElement('p');
+                puestoParrafo.innerHTML = `<span class="font-weight-bolder">Puesto: </span> ${puesto}`;
 
                 const fechaParrafo = document.createElement('p');
                 fechaParrafo.innerHTML = `<span class="font-weight-bolder">Fecha: </span> ${fecha}`;
@@ -182,6 +180,7 @@ class UI {
 
                 // Añade un botón de editar...
                 const btnEditar = document.createElement('button');
+                const interv = cursor.value;
                 btnEditar.onclick = () => cargarEdicion(interv);
 
                 btnEditar.classList.add('btn', 'btn-info');
@@ -226,16 +225,31 @@ function nuevaInterv(e) {
 
         return;
     }
+    // Estamos editando
 
     if (editando) {
-        // Estamos editando
+
         administrarIntervenciones.editarInterv({ ...intervObj });
 
-        ui.imprimirAlerta('Guardado Correctamente');
+        // Edita en IndexDB
 
-        formulario.querySelector('button[type="submit"]').textContent = 'Crear Intervencion';
+        const transaction = DB.transaction(['event'], 'readwrite');
+        const objectStore = transaction.objectStore('event')
 
-        editando = false;
+        objectStore.put(intervObj);
+
+        transaction.oncomplete = () => {
+
+            ui.imprimirAlerta('Guardado Correctamente');
+
+            formulario.querySelector('button[type="submit"]').textContent = 'Crear Intervencion';
+
+            editando = false;
+        }
+
+        transaction.onerror = () => {
+            console.log('Hubo un error');
+        }
 
     } else {
         // Nuevo Registrando
@@ -287,9 +301,20 @@ function reiniciarObjeto() {
 
 
 function eliminarInterv(id) {
-    administrarIntervenciones.eliminarInterv(id);
 
-    ui.imprimirIntervenciones()
+    const transaction = DB.transaction(['event'], 'readwrite');
+    const objectStore = transaction.objectStore('event');
+
+    objectStore.delete(id);
+
+
+    transaction.oncomplete = () => {
+        ui.imprimirIntervenciones();
+    }
+
+    transaction.onerror = () => {
+        console.log('Hubo un error');
+    }
 }
 
 function cargarEdicion(interv) {

@@ -1,3 +1,13 @@
+let encargado
+
+encargado = localStorage.getItem('encargado turno')
+console.log(encargado)
+
+if (encargado){
+
+}else if(encargado){
+
+}
 
 
 const fechaInput = document.querySelector('#fecha');
@@ -119,9 +129,6 @@ renderizarIntervencionesEstaticas = (intervenciones) => {
                 const horaParrafo = document.createElement('p');
                 horaParrafo.innerHTML = `<span class="font-weight-bolder">Hora del suceso: </span> ${hora}`;
 
-                const turnoParrafo = document.createElement('p');
-                turnoParrafo.innerHTML = `<span class="font-weight-bolder">Turno: </span> ${turno}`;
-
                 const marParrafo = document.createElement('p');
                 marParrafo.innerHTML = `<span class="font-weight-bolder">Estado del mar: </span> ${mar}`;
 
@@ -135,7 +142,6 @@ renderizarIntervencionesEstaticas = (intervenciones) => {
                 divEstatic.appendChild(puestoParrafo);
                 divEstatic.appendChild(fechaParrafo);
                 divEstatic.appendChild(horaParrafo);
-                divEstatic.appendChild(turnoParrafo);
                 divEstatic.appendChild(marParrafo);
                 divEstatic.appendChild(vientoParrafo);
                 divEstatic.appendChild(codigoParrafo);

@@ -10,10 +10,10 @@ const login = () => {
 
     if (user === "tarde" && password === "admin") {
         window.location = "./vistas/turnoTarde.html";
-        user = localStorage.setItem('encargado turno',JSON.stringify(user))
+        user = sessionStorage.setItem('encargado turno',JSON.stringify(user))
     } else if (user === "mañana" && password === "admin") {
         window.location = "./vistas/turnoMañana.html";
-        user = localStorage.setItem('encargado turno',JSON.stringify(user))
+        user = sessionStorage.setItem('encargado turno',JSON.stringify(user))
     }
 }
 

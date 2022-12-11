@@ -1,22 +1,4 @@
-// traer usuario logeado desde sessionStorage
-let encargado
 
-
-encargado = sessionStorage.getItem('encargado turno');
-sessionStorage.clear();
-
-console.log(encargado)
-
-switch (encargado) {
-
-    case "tarde":
-        Swal.fire('Bienvenido encargado de la tarde');
-        break;
-
-    case "mañana":
-        Swal.fire('Bienvenido encargado de la mañana');
-        break;
-}
 
 const fechaInput = document.querySelector('#fecha');
 const horaInput = document.querySelector('#hora');
@@ -120,7 +102,7 @@ renderizarIntervencionesEstaticas = (intervenciones) => {
             intervenciones = data
 
             intervenciones.forEach(intervencion => {
-                let { fecha, hora, puesto, mar, viento, codigo, id } = intervencion;
+                let { fecha, hora, puesto, mar, viento, codigo, turno, id } = intervencion;
 
                 const divEstatic = document.createElement('div');
                 divEstatic.classList.add('interv', 'p-3');
@@ -137,6 +119,9 @@ renderizarIntervencionesEstaticas = (intervenciones) => {
                 const horaParrafo = document.createElement('p');
                 horaParrafo.innerHTML = `<span class="font-weight-bolder">Hora del suceso: </span> ${hora}`;
 
+                const turnoParrafo = document.createElement('p');
+                turnoParrafo.innerHTML = `<span class="font-weight-bolder">Turno: </span> ${turno}`;
+
                 const marParrafo = document.createElement('p');
                 marParrafo.innerHTML = `<span class="font-weight-bolder">Estado del mar: </span> ${mar}`;
 
@@ -150,6 +135,7 @@ renderizarIntervencionesEstaticas = (intervenciones) => {
                 divEstatic.appendChild(puestoParrafo);
                 divEstatic.appendChild(fechaParrafo);
                 divEstatic.appendChild(horaParrafo);
+                divEstatic.appendChild(turnoParrafo);
                 divEstatic.appendChild(marParrafo);
                 divEstatic.appendChild(vientoParrafo);
                 divEstatic.appendChild(codigoParrafo);
@@ -371,17 +357,34 @@ function reiniciarObjeto() {
 
 
 function eliminarInterv(id) {
+    Swal.fire({
+        title: 'Estas seguro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'advertencia',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '¡Sí, bórralo!'
+    }).then((result) => {
 
-    const transaction = DB.transaction(['event'], 'readwrite');
-    const objectStore = transaction.objectStore('event');
+        const transaction = DB.transaction(['event'], 'readwrite');
+        const objectStore = transaction.objectStore('event');
 
-    objectStore.delete(id);
+        objectStore.delete(id);
 
 
-    transaction.oncomplete = () => {
-        ui.imprimirIntervenciones();
-    }
-
+        transaction.oncomplete = () => {
+            ui.imprimirIntervenciones();
+        }
+        if (result.isConfirmed) {
+            Swal.fire(
+                '¡Eliminado!',
+                'Su registro ha sido eliminado.',
+                'éxito'
+            )
+        }
+    })
+    
     transaction.onerror = () => {
         console.log('Hubo un error');
     }

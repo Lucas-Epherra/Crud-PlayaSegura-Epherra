@@ -1,12 +1,3 @@
-let encargado = localStorage.getItem('encargado turno');
-
-/* if ('encargado turno' != 'tarde') {
-    encargado = "mañana"
-} else {
-    encargado = 'tarde'
-} */
-
-console.log(encargado)
 
 const fechaInput = document.querySelector('#fecha');
 const horaInput = document.querySelector('#hora');
@@ -30,7 +21,7 @@ let editando = false;
 // IndexedDB -- Creacion ---------
 function createDB() {
     // creacion de la base de datos en version 1.0
-    const createDB = window.indexedDB.open('event', 1)
+    const createDB = window.indexedDB.open('registroMañana', 1)
 
     //si hay un error
     createDB.onerror = () => {
@@ -53,7 +44,7 @@ function createDB() {
     createDB.onupgradeneeded = function (e) {
         const db = e.target.result;
 
-        const objectStore = db.createObjectStore('event', {
+        const objectStore = db.createObjectStore('mañana', {
             keyPath: 'id',
             autoIncrement: true
         });
@@ -101,104 +92,6 @@ function datosInterv(e) {
     intervObj[e.target.name] = e.target.value;
 }
 
-// traer datos estaticos desde el json con fetch
-renderizarIntervencionesEstaticas = (intervenciones) => {
-
-    if (encargado != '"mañana"') {
-        fetch('../json/tarde.json')
-            .then((response) => response.json())
-            .then((data) => {
-                intervenciones = data
-                intervenciones.forEach(intervencion => {
-                    let { fecha, hora, puesto, mar, viento, codigo, id } = intervencion;
-
-                    const divEstatic = document.createElement('div');
-                    divEstatic.classList.add('interv', 'p-3');
-                    divEstatic.dataset.id = id;
-
-                    // SCRIPTING DE LOS ELEMENTOS ESTATICOS
-
-                    const puestoParrafo = document.createElement('p');
-                    puestoParrafo.innerHTML = `<span class="font-weight-bolder">Puesto: </span> ${puesto}`;
-
-                    const fechaParrafo = document.createElement('p');
-                    fechaParrafo.innerHTML = `<span class="font-weight-bolder">Fecha: </span> ${fecha}`;
-
-                    const horaParrafo = document.createElement('p');
-                    horaParrafo.innerHTML = `<span class="font-weight-bolder">Hora del suceso: </span> ${hora}`;
-
-                    const marParrafo = document.createElement('p');
-                    marParrafo.innerHTML = `<span class="font-weight-bolder">Estado del mar: </span> ${mar}`;
-
-                    const vientoParrafo = document.createElement('p');
-                    vientoParrafo.innerHTML = `<span class="font-weight-bolder">Direccion del viento: </span> ${viento}`;
-
-                    const codigoParrafo = document.createElement('p');
-                    codigoParrafo.innerHTML = `<span class="font-weight-bolder">Codigo de intervencion: </span> ${codigo}`;
-
-                    // Agregar al HTML
-                    divEstatic.appendChild(puestoParrafo);
-                    divEstatic.appendChild(fechaParrafo);
-                    divEstatic.appendChild(horaParrafo);
-                    divEstatic.appendChild(marParrafo);
-                    divEstatic.appendChild(vientoParrafo);
-                    divEstatic.appendChild(codigoParrafo);
-
-                    contenedorIntervEstaticas.appendChild(divEstatic);
-                })
-            })
-    }
-    
-    if (encargado != '"tarde"') {
-        fetch('../json/mañana.json')
-            .then((response) => response.json())
-            .then((data) => {
-                intervenciones = data
-                intervenciones.forEach(intervencion => {
-                    let { fecha, hora, puesto, mar, viento, codigo, id } = intervencion;
-
-                    const divEstatic = document.createElement('div');
-                    divEstatic.classList.add('interv', 'p-3');
-                    divEstatic.dataset.id = id;
-
-                    // SCRIPTING DE LOS ELEMENTOS ESTATICOS
-
-                    const puestoParrafo = document.createElement('p');
-                    puestoParrafo.innerHTML = `<span class="font-weight-bolder">Puesto: </span> ${puesto}`;
-
-                    const fechaParrafo = document.createElement('p');
-                    fechaParrafo.innerHTML = `<span class="font-weight-bolder">Fecha: </span> ${fecha}`;
-
-                    const horaParrafo = document.createElement('p');
-                    horaParrafo.innerHTML = `<span class="font-weight-bolder">Hora del suceso: </span> ${hora}`;
-
-                    const marParrafo = document.createElement('p');
-                    marParrafo.innerHTML = `<span class="font-weight-bolder">Estado del mar: </span> ${mar}`;
-
-                    const vientoParrafo = document.createElement('p');
-                    vientoParrafo.innerHTML = `<span class="font-weight-bolder">Direccion del viento: </span> ${viento}`;
-
-                    const codigoParrafo = document.createElement('p');
-                    codigoParrafo.innerHTML = `<span class="font-weight-bolder">Codigo de intervencion: </span> ${codigo}`;
-
-                    // Agregar al HTML
-                    divEstatic.appendChild(puestoParrafo);
-                    divEstatic.appendChild(fechaParrafo);
-                    divEstatic.appendChild(horaParrafo);
-                    divEstatic.appendChild(marParrafo);
-                    divEstatic.appendChild(vientoParrafo);
-                    divEstatic.appendChild(codigoParrafo);
-
-                    contenedorIntervEstaticas.appendChild(divEstatic);
-                })
-            })
-    }
-}
-
-
-renderizarIntervencionesEstaticas()
-
-
 // CLasses ---------
 class Intervenciones {
     constructor() {
@@ -245,9 +138,9 @@ class UI {
         this.limpiarHTML();
 
         //leer el contenido de la base de datos
-        const objectStore = DB.transaction('event').objectStore('event');
+        const objectStor = DB.transaction('mañana').objectStore('mañana');
 
-        objectStore.openCursor().onsuccess = function (e) {
+        objectStor.openCursor().onsuccess = function (e) {
 
             const cursor = e.target.result;
 
@@ -339,8 +232,8 @@ function nuevaInterv(e) {
 
         // Edita en IndexDB
 
-        const transaction = DB.transaction(['event'], 'readwrite');
-        const objectStore = transaction.objectStore('event')
+        const transaction = DB.transaction(['mañana'], 'readwrite');
+        const objectStore = transaction.objectStore('mañana')
 
         objectStore.put(intervObj);
 
@@ -367,10 +260,10 @@ function nuevaInterv(e) {
         administrarIntervenciones.agregarInterv({ ...intervObj });
 
         //insertar nuevo registro en IndexedDB
-        const transaction = DB.transaction('event', 'readwrite');
+        const transaction = DB.transaction('mañana', 'readwrite');
 
         //habilitar el objectstore
-        const objectStore = transaction.objectStore('event');
+        const objectStore = transaction.objectStore('mañana');
 
         //insertar en la bd
         objectStore.add(intervObj);
@@ -417,8 +310,8 @@ function eliminarInterv(id) {
         confirmButtonText: '¡Sí, bórralo!'
     }).then((result) => {
 
-        const transaction = DB.transaction(['event'], 'readwrite');
-        const objectStore = transaction.objectStore('event');
+        const transaction = DB.transaction(['mañana'], 'readwrite');
+        const objectStore = transaction.objectStore('mañana');
 
         objectStore.delete(id);
 

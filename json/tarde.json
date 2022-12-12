@@ -4,7 +4,6 @@
         "puesto": "samoa",
         "mar": "peligroso",
         "viento": "norte",
-        "turno": "tarde",
         "codigo": "codigo 2",
         "hora": "16:30",
         "id": 1670426870937
@@ -14,7 +13,6 @@
         "puesto": "anexo",
         "mar": "peligroso",
         "viento": "norte",
-        "turno": "tarde",
         "codigo": "codigo 2",
         "hora": "18:20",
         "id": 1670426870938

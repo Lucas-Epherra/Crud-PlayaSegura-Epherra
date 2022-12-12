@@ -7,14 +7,5 @@
         "codigo": "codigo 2",
         "hora": "16:30",
         "id": 1670426870937
-    },
-    {
-        "fecha": "05/12/2022",
-        "puesto": "anexo",
-        "mar": "peligroso",
-        "viento": "norte",
-        "codigo": "codigo 2",
-        "hora": "18:20",
-        "id": 1670426870938
     }
 ]

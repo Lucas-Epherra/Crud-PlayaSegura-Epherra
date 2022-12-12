@@ -6,9 +6,6 @@ const marInput = document.querySelector('#mar');
 const vientoInput = document.querySelector('#viento');
 const codigoInput = document.querySelector('#codigo');
 
-//Contenedor para las intervenciones estaticas
-const contenedorIntervEstaticas = document.querySelector('#intervencionesEstaticas');
-
 // Contenedor para las intervenciones dinamicas
 const contenedorInterv = document.querySelector('#intervenciones');
 

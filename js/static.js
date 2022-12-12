@@ -2,6 +2,8 @@ let encargado = localStorage.getItem('encargado turno');
 
 console.log(encargado)
 
+//Contenedor para las intervenciones estaticas
+const contenedorIntervEstaticas = document.querySelector('#intervencionesEstaticas');
 
 // traer datos estaticos desde el json con fetch
 renderizarIntervencionesEstaticas = (intervenciones) => {
@@ -20,6 +22,9 @@ renderizarIntervencionesEstaticas = (intervenciones) => {
 
                     // SCRIPTING DE LOS ELEMENTOS ESTATICOS
 
+                    const tituloEJ = document.createElement('h2');
+                    tituloEJ.innerHTML = `<span class="font-weight-bolder">Ejemplo de registro: </span>`;
+
                     const puestoParrafo = document.createElement('p');
                     puestoParrafo.innerHTML = `<span class="font-weight-bolder">Puesto: </span> ${puesto}`;
 
@@ -39,6 +44,7 @@ renderizarIntervencionesEstaticas = (intervenciones) => {
                     codigoParrafo.innerHTML = `<span class="font-weight-bolder">Codigo de intervencion: </span> ${codigo}`;
 
                     // Agregar al HTML
+                    divEstatic.appendChild(tituloEJ);
                     divEstatic.appendChild(puestoParrafo);
                     divEstatic.appendChild(fechaParrafo);
                     divEstatic.appendChild(horaParrafo);
@@ -50,7 +56,7 @@ renderizarIntervencionesEstaticas = (intervenciones) => {
                 })
             })
     }
-    
+
     if (encargado != '"tarde"') {
         fetch('../json/mañana.json')
             .then((response) => response.json())
@@ -65,6 +71,9 @@ renderizarIntervencionesEstaticas = (intervenciones) => {
 
                     // SCRIPTING DE LOS ELEMENTOS ESTATICOS
 
+                    const tituloEJ = document.createElement('h2');
+                    tituloEJ.innerHTML = `<span class="font-weight-bolder">Ejemplo de registro: </span>`;
+
                     const puestoParrafo = document.createElement('p');
                     puestoParrafo.innerHTML = `<span class="font-weight-bolder">Puesto: </span> ${puesto}`;
 
@@ -84,6 +93,7 @@ renderizarIntervencionesEstaticas = (intervenciones) => {
                     codigoParrafo.innerHTML = `<span class="font-weight-bolder">Codigo de intervencion: </span> ${codigo}`;
 
                     // Agregar al HTML
+                    divEstatic.appendChild(tituloEJ);
                     divEstatic.appendChild(puestoParrafo);
                     divEstatic.appendChild(fechaParrafo);
                     divEstatic.appendChild(horaParrafo);
@@ -99,3 +109,4 @@ renderizarIntervencionesEstaticas = (intervenciones) => {
 
 
 renderizarIntervencionesEstaticas()
+

@@ -18,25 +18,5 @@
         "codigo": "codigo 3",
         "hora": "12:05",
         "id": 1670426870936
-    },
-    {
-        "fecha": "05/12/2022",
-        "puesto": "samoa",
-        "mar": "peligroso",
-        "viento": "norte",
-        "turno":"tarde",
-        "codigo": "codigo 2",
-        "hora": "16:30",
-        "id": 1670426870937
-    },
-    {
-        "fecha": "05/12/2022",
-        "puesto": "anexo",
-        "mar": "peligroso",
-        "viento": "norte",
-        "turno":"tarde",
-        "codigo": "codigo 2",
-        "hora": "18:20",
-        "id": 1670426870938
     }
 ]

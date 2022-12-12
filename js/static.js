@@ -22,7 +22,7 @@ renderizarIntervencionesEstaticas = (intervenciones) => {
 
                     // SCRIPTING DE LOS ELEMENTOS ESTATICOS
 
-                    const tituloEJ = document.createElement('h2');
+                    const tituloEJ = document.createElement('h4');
                     tituloEJ.innerHTML = `<span class="font-weight-bolder">Ejemplo de registro: </span>`;
 
                     const puestoParrafo = document.createElement('p');

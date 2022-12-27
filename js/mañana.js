@@ -307,20 +307,25 @@ function eliminarInterv(id) {
         confirmButtonText: '¡Sí, bórralo!'
     }).then((result) => {
 
-        const transaction = DB.transaction(['mañana'], 'readwrite');
-        const objectStore = transaction.objectStore('mañana');
-
-        objectStore.delete(id);
-
-
-        transaction.oncomplete = () => {
-            ui.imprimirIntervenciones();
-        }
         if (result.isConfirmed) {
             Swal.fire(
                 '¡Eliminado!',
                 'Su registro ha sido eliminado.',
                 'éxito'
+            )
+
+            const transaction = DB.transaction(['mañana'], 'readwrite');
+            const objectStore = transaction.objectStore('mañana');
+
+            objectStore.delete(id);
+
+
+            transaction.oncomplete = () => {
+                ui.imprimirIntervenciones();
+            }
+        } else {
+            Swal.fire(
+                'Cancelado !!'
             )
         }
     })

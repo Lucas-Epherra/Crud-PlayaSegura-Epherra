@@ -5,202 +5,171 @@ const marInput = document.querySelector("#mar");
 const vientoInput = document.querySelector("#viento");
 const codigoInput = document.querySelector("#codigo");
 
-// Contenedor para las intervenciones dinamicas
 const contenedorInterv = document.querySelector("#intervenciones");
-
-// Formulario nuevas intervenciones
 const formulario = document.querySelector("#nueva-intervencion");
-formulario.addEventListener("submit", nuevaInterv);
+const submitBtn = formulario.querySelector('button[type="submit"]');
 
+const DB_NAME = "registroMañana";
+const STORE_NAME = "mañana";
+
+let DB;
 let editando = false;
+let intervObj = crearIntervencionVacia();
 
-// IndexedDB -- Creacion ---------
+window.addEventListener("load", () => {
+  eventListeners();
+  createDB();
+});
+
+function crearIntervencionVacia() {
+  return {
+    fecha: "",
+    hora: "",
+    puesto: "",
+    mar: "",
+    viento: "",
+    codigo: "",
+  };
+}
+
+function eventListeners() {
+  formulario.addEventListener("submit", nuevaInterv);
+
+  [
+    fechaInput,
+    horaInput,
+    puestoInput,
+    marInput,
+    vientoInput,
+    codigoInput,
+  ].forEach((input) => {
+    input.addEventListener("input", datosInterv);
+    input.addEventListener("change", datosInterv);
+  });
+}
+
+function datosInterv(e) {
+  intervObj[e.target.name] = e.target.value.trim();
+}
+
 function createDB() {
-  // creacion de la base de datos en version 1.0
-  const createDB = window.indexedDB.open("registroMañana", 1);
+  const request = window.indexedDB.open(DB_NAME, 1);
 
-  //si hay un error
-  createDB.onerror = () => {
-    console.log("Hubo un error");
+  request.onerror = () => {
+    console.error("Hubo un error al abrir IndexedDB");
   };
 
-  // si todo va bien
-
-  createDB.onsuccess = () => {
-    console.log("Base de datos creada");
-
-    DB = createDB.result;
-
-    // mostrar intervenciones al cargar (con indexedDB listo)
+  request.onsuccess = () => {
+    DB = request.result;
     ui.imprimirIntervenciones();
   };
 
-  // definir esquema
-
-  createDB.onupgradeneeded = function (e) {
+  request.onupgradeneeded = (e) => {
     const db = e.target.result;
 
-    const objectStore = db.createObjectStore("mañana", {
-      keyPath: "id",
-      autoIncrement: true,
-    });
+    if (!db.objectStoreNames.contains(STORE_NAME)) {
+      const objectStore = db.createObjectStore(STORE_NAME, {
+        keyPath: "id",
+      });
 
-    //Definir todas las columnas
-    objectStore.createIndex("puesto", "puesto", { unique: false });
-    objectStore.createIndex("fecha", "fecha", { unique: false });
-    objectStore.createIndex("hora", "hora", { unique: false });
-    objectStore.createIndex("mar", "mar", { unique: false });
-    objectStore.createIndex("viento", "viento", { unique: false });
-    objectStore.createIndex("codigo", "codigo", { unique: false });
-    objectStore.createIndex("id", "id", { unique: true });
-
-    console.log("DB creada y lista");
+      objectStore.createIndex("puesto", "puesto", { unique: false });
+      objectStore.createIndex("fecha", "fecha", { unique: false });
+      objectStore.createIndex("hora", "hora", { unique: false });
+      objectStore.createIndex("mar", "mar", { unique: false });
+      objectStore.createIndex("viento", "viento", { unique: false });
+      objectStore.createIndex("codigo", "codigo", { unique: false });
+      objectStore.createIndex("id", "id", { unique: true });
+    }
   };
 }
 
-window.onload = () => {
-  eventListeners();
-  createDB();
-};
-
-// Eventos ---------
-
-function eventListeners() {
-  fechaInput.addEventListener("change", datosInterv);
-  horaInput.addEventListener("change", datosInterv);
-  puestoInput.addEventListener("change", datosInterv);
-  marInput.addEventListener("change", datosInterv);
-  vientoInput.addEventListener("change", datosInterv);
-  codigoInput.addEventListener("change", datosInterv);
-}
-
-
-let intervObj = {
-  fecha: "",
-  hora: "",
-  puesto: "",
-  mar: "",
-  viento: "",
-  codigo: "",
-};
-
-function datosInterv(e) {
-  // Obtener el Input
-  intervObj[e.target.name] = e.target.value;
-}
-
-// CLasses ---------
-class Intervenciones {
-  constructor() {
-    this.intervenciones = [];
-  }
-  agregarInterv(interv) {
-    this.intervenciones = [...this.intervenciones, interv];
-  }
-  editarInterv(intervencionActualizada) {
-    this.intervenciones = this.intervenciones.map((interv) =>
-      interv.id === intervencionActualizada.id
-        ? intervencionActualizada
-        : interv,
-    );
-  }
-
-  eliminarInterv(id) {
-    this.intervenciones = this.intervenciones.filter(
-      (interv) => interv.id !== id,
-    );
-  }
-}
 class UI {
   imprimirAlerta(mensaje, tipo = "success") {
-  Swal.fire({
-    title: tipo === "error" ? "Error" : "Listo",
-    text: mensaje,
-    icon: tipo === "error" ? "error" : "success",
-    confirmButtonText: "Aceptar",
-    buttonsStyling: false,
-    customClass: {
-      popup: "swal-popup-custom",
-      title: "swal-title-custom",
-      htmlContainer: "swal-text-custom",
-      confirmButton: "swal-confirm-custom"
-    }
-  });
-}
+    Swal.fire({
+      title: tipo === "error" ? "Error" : "Listo",
+      text: mensaje,
+      icon: tipo === "error" ? "error" : "success",
+      confirmButtonText: "Aceptar",
+      buttonsStyling: false,
+      customClass: {
+        popup: "swal-popup-custom",
+        title: "swal-title-custom",
+        htmlContainer: "swal-text-custom",
+        confirmButton: "swal-confirm-custom",
+      },
+    });
+  }
+
   imprimirIntervenciones() {
     this.limpiarHTML();
 
-    //leer el contenido de la base de datos
-    const objectStor = DB.transaction("mañana").objectStore("mañana");
+    if (!DB) return;
 
-    objectStor.openCursor().onsuccess = function (e) {
+    const transaction = DB.transaction(STORE_NAME, "readonly");
+    const objectStore = transaction.objectStore(STORE_NAME);
+
+    objectStore.openCursor().onsuccess = (e) => {
       const cursor = e.target.result;
 
-      if (cursor) {
-        const { fecha, hora, puesto, mar, viento, codigo, id } = cursor.value;
+      if (!cursor) return;
 
-        const divInterv = document.createElement("div");
-        divInterv.classList.add("interv", "p-3");
-        divInterv.dataset.id = id;
+      const registro = cursor.value;
+      const { fecha, hora, puesto, mar, viento, codigo, id } = registro;
 
-        // SCRIPTING DE LOS ELEMENTOS...
+      const divInterv = document.createElement("div");
+      divInterv.classList.add("interv", "p-3");
+      divInterv.dataset.id = id;
 
-        const puestoParrafo = document.createElement("p");
-        puestoParrafo.innerHTML = `<span class="font-weight-bolder">Puesto: </span> ${puesto}`;
+      divInterv.appendChild(this.crearParrafo("Puesto", puesto));
+      divInterv.appendChild(this.crearParrafo("Fecha", fecha));
+      divInterv.appendChild(this.crearParrafo("Hora del suceso", hora));
+      divInterv.appendChild(this.crearParrafo("Estado del mar", mar));
+      divInterv.appendChild(this.crearParrafo("Dirección del viento", viento));
+      divInterv.appendChild(
+        this.crearParrafo("Código de intervención", codigo),
+      );
 
-        const fechaParrafo = document.createElement("p");
-        fechaParrafo.innerHTML = `<span class="font-weight-bolder">Fecha: </span> ${fecha}`;
+      const actionsRow = document.createElement("div");
+      actionsRow.classList.add("actions-row");
 
-        const horaParrafo = document.createElement("p");
-        horaParrafo.innerHTML = `<span class="font-weight-bolder">Hora del suceso: </span> ${hora}`;
+      const btnEditar = document.createElement("button");
+      btnEditar.type = "button";
+      btnEditar.classList.add("crud-btn", "crud-btn--edit");
+      btnEditar.innerHTML = `
+        Editar
+        <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+        </svg>
+      `;
+      btnEditar.addEventListener("click", () => cargarEdicion({ ...registro }));
 
-        const marParrafo = document.createElement("p");
-        marParrafo.innerHTML = `<span class="font-weight-bolder">Estado del mar: </span> ${mar}`;
+      const btnEliminar = document.createElement("button");
+      btnEliminar.type = "button";
+      btnEliminar.classList.add("crud-btn", "crud-btn--delete");
+      btnEliminar.innerHTML = `
+        Eliminar
+        <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      `;
+      btnEliminar.addEventListener("click", () => eliminarInterv(id));
 
-        const vientoParrafo = document.createElement("p");
-        vientoParrafo.innerHTML = `<span class="font-weight-bolder">Direccion del viento: </span> ${viento}`;
+      actionsRow.appendChild(btnEditar);
+      actionsRow.appendChild(btnEliminar);
+      divInterv.appendChild(actionsRow);
 
-        const codigoParrafo = document.createElement("p");
-        codigoParrafo.innerHTML = `<span class="font-weight-bolder">Codigo de intervencion: </span> ${codigo}`;
+      contenedorInterv.appendChild(divInterv);
 
-        // Agregar un botón de eliminar...
-        const btnEliminar = document.createElement("button");
-        btnEliminar.onclick = () => eliminarInterv(id); // añade la opción de eliminar
-        btnEliminar.classList.add("btn", "btn-danger", "mr-2");
-        btnEliminar.innerHTML =
-          'Eliminar <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
-
-        // Añade un botón de editar...
-        const btnEditar = document.createElement("button");
-        const interv = cursor.value;
-        btnEditar.onclick = () => cargarEdicion(interv);
-
-        btnEditar.classList.add("btn", "btn-info");
-        btnEditar.innerHTML =
-          'Editar <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>';
-
-        const actionsRow = document.createElement("div");
-        actionsRow.classList.add("actions-row");
-
-        actionsRow.appendChild(btnEditar);
-        actionsRow.appendChild(btnEliminar);
-
-        // Agregar al HTML
-        divInterv.appendChild(puestoParrafo);
-        divInterv.appendChild(fechaParrafo);
-        divInterv.appendChild(horaParrafo);
-        divInterv.appendChild(marParrafo);
-        divInterv.appendChild(vientoParrafo);
-        divInterv.appendChild(codigoParrafo);
-        divInterv.appendChild(actionsRow);
-        
-
-        contenedorInterv.appendChild(divInterv);
-
-        // ir al sgte elemento de la bd
-        cursor.continue();
-      }
+      cursor.continue();
     };
+  }
+
+  crearParrafo(label, valor) {
+    const p = document.createElement("p");
+    p.innerHTML = `<span>${label}: </span>${valor}`;
+    return p;
   }
 
   limpiarHTML() {
@@ -211,90 +180,90 @@ class UI {
 }
 
 const ui = new UI();
-const administrarIntervenciones = new Intervenciones();
 
 function nuevaInterv(e) {
   e.preventDefault();
 
   const { fecha, hora, puesto, mar, viento, codigo } = intervObj;
 
-  // Validar
- if (!fecha || !hora || !puesto || !mar || !viento || !codigo) {
-  ui.imprimirAlerta("Todos los campos son obligatorios", "error");
-  return;
-}
-  // Estamos editando
-
-  if (editando) {
-    administrarIntervenciones.editarInterv({ ...intervObj });
-
-    // Edita en IndexDB
-
-    const transaction = DB.transaction(["mañana"], "readwrite");
-    const objectStore = transaction.objectStore("mañana");
-
-    objectStore.put(intervObj);
-
-    transaction.oncomplete = () => {
-      ui.imprimirAlerta("Guardado Correctamente");
-
-      formulario.querySelector('button[type="submit"]').textContent =
-        "Crear Intervencion";
-
-      editando = false;
-    };
-
-    transaction.onerror = () => {
-      console.log("Hubo un error");
-    };
-  } else {
-    // Nuevo Registrando
-
-    // Generar un ID único
-    intervObj.id = Date.now();
-
-    // Añade la nueva intervencion
-    administrarIntervenciones.agregarInterv({ ...intervObj });
-
-    //insertar nuevo registro en IndexedDB
-    const transaction = DB.transaction("mañana", "readwrite");
-
-    //habilitar el objectstore
-    const objectStore = transaction.objectStore("mañana");
-
-    //insertar en la bd
-    objectStore.add(intervObj);
-
-    transaction.oncomplete = function () {
-      console.log("Intervencion Agregada");
-
-      // Mostrar mensaje de que todo esta bien...
-      ui.imprimirAlerta("Se agregó correctamente");
-    };
+  if (!fecha || !hora || !puesto || !mar || !viento || !codigo) {
+    ui.imprimirAlerta("Todos los campos son obligatorios", "error");
+    return;
   }
 
-  // Imprimir el HTML de intervenciones
-  ui.imprimirIntervenciones();
+  if (!DB) {
+    ui.imprimirAlerta("La base de datos todavía no está lista", "error");
+    return;
+  }
 
-  // Reinicia el objeto para evitar futuros problemas de validación
-  reiniciarObjeto();
-
-  // Reiniciar Formulario
-  formulario.reset();
+  if (editando) {
+    actualizarIntervencion();
+  } else {
+    crearIntervencion();
+  }
 }
 
-//reiniciar objeto
-function reiniciarObjeto() {
-  intervObj = {
-    fecha: "",
-    hora: "",
-    puesto: "",
-    mar: "",
-    viento: "",
-    codigo: "",
+function crearIntervencion() {
+  const nueva = {
+    ...intervObj,
+    id: Date.now(),
+  };
+
+  const transaction = DB.transaction(STORE_NAME, "readwrite");
+  const objectStore = transaction.objectStore(STORE_NAME);
+
+  objectStore.add(nueva);
+
+  transaction.oncomplete = () => {
+    ui.imprimirAlerta("Intervención agregada correctamente");
+    ui.imprimirIntervenciones();
+    resetFormulario();
+  };
+
+  transaction.onerror = () => {
+    ui.imprimirAlerta("No se pudo guardar la intervención", "error");
   };
 }
 
+function actualizarIntervencion() {
+  const actualizada = { ...intervObj };
+
+  const transaction = DB.transaction(STORE_NAME, "readwrite");
+  const objectStore = transaction.objectStore(STORE_NAME);
+
+  objectStore.put(actualizada);
+
+  transaction.oncomplete = () => {
+    ui.imprimirAlerta("Intervención actualizada correctamente");
+    ui.imprimirIntervenciones();
+    resetFormulario();
+  };
+
+  transaction.onerror = () => {
+    ui.imprimirAlerta("No se pudo actualizar la intervención", "error");
+  };
+}
+
+function cargarEdicion(interv) {
+  intervObj = { ...interv };
+
+  fechaInput.value = interv.fecha;
+  horaInput.value = interv.hora;
+  puestoInput.value = interv.puesto;
+  marInput.value = interv.mar;
+  vientoInput.value = interv.viento;
+  codigoInput.value = interv.codigo;
+
+  submitBtn.textContent = "Guardar cambios";
+  editando = true;
+}
+
+function resetFormulario() {
+  intervObj = crearIntervencionVacia();
+  editando = false;
+  formulario.reset();
+  submitBtn.textContent = "Crear intervención";
+}
 
 function eliminarInterv(id) {
   Swal.fire({
@@ -304,83 +273,78 @@ function eliminarInterv(id) {
     showCancelButton: true,
     confirmButtonText: "Sí, eliminar",
     cancelButtonText: "Cancelar",
+    reverseButtons: true,
     buttonsStyling: false,
     customClass: {
-      popup: "custom-alert",
-      title: "custom-alert-title",
-      htmlContainer: "custom-alert-text",
-      actions: "custom-alert-actions",
-      confirmButton: "custom-alert-confirm",
-      cancelButton: "custom-alert-cancel"
-    }
+      popup: "swal-popup-custom",
+      title: "swal-title-custom",
+      htmlContainer: "swal-text-custom",
+      confirmButton: "swal-confirm-custom",
+      cancelButton: "swal-cancel-custom",
+    },
   }).then((result) => {
-    if (result.isConfirmed) {
-      const transaction = DB.transaction(["mañana"], "readwrite");
-      const objectStore = transaction.objectStore("mañana");
+    if (!result.isConfirmed) return;
 
-      objectStore.delete(id);
+    const transaction = DB.transaction(STORE_NAME, "readwrite");
+    const objectStore = transaction.objectStore(STORE_NAME);
 
-      transaction.oncomplete = () => {
-        ui.imprimirIntervenciones();
+    objectStore.delete(id);
 
-        Swal.fire({
-          title: "Eliminado",
-          text: "El registro fue eliminado correctamente.",
-          icon: "success",
-          buttonsStyling: false,
-          customClass: {
-            popup: "custom-alert",
-            title: "custom-alert-title",
-            htmlContainer: "custom-alert-text",
-            actions: "custom-alert-actions",
-            confirmButton: "custom-alert-confirm"
-          },
-          confirmButtonText: "Aceptar"
-        });
-      };
+    transaction.oncomplete = () => {
+      ui.imprimirIntervenciones();
 
-      transaction.onerror = () => {
-        Swal.fire({
-          title: "Error",
-          text: "Hubo un problema al eliminar el registro.",
-          icon: "error",
-          buttonsStyling: false,
-          customClass: {
-            popup: "custom-alert",
-            title: "custom-alert-title",
-            htmlContainer: "custom-alert-text",
-            actions: "custom-alert-actions",
-            confirmButton: "custom-alert-confirm"
-          },
-          confirmButtonText: "Entendido"
-        });
-      };
-    }
+      Swal.fire({
+        title: "Eliminado",
+        text: "El registro fue eliminado correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        buttonsStyling: false,
+        customClass: {
+          popup: "swal-popup-custom",
+          title: "swal-title-custom",
+          htmlContainer: "swal-text-custom",
+          confirmButton: "swal-confirm-custom",
+        },
+      });
+
+      if (editando && intervObj.id === id) {
+        resetFormulario();
+      }
+    };
+
+    transaction.onerror = () => {
+      ui.imprimirAlerta("No se pudo eliminar el registro", "error");
+    };
   });
 }
 
-function cargarEdicion(interv) {
-  const { fecha, hora, puesto, mar, viento, codigo, id } = interv;
+const btnCambiarTurno = document.querySelector("#btn-cambiar-turno");
+const turnoBadge = document.querySelector("#turno-badge");
 
-  // Reiniciar el objeto
-  intervObj.fecha = fecha;
-  intervObj.hora = hora;
-  intervObj.puesto = puesto;
-  intervObj.mar = mar;
-  intervObj.viento = viento;
-  intervObj.codigo = codigo;
-  intervObj.id = id;
+if (btnCambiarTurno && turnoBadge) {
+  const turnoActual = document.body.dataset.turno;
 
-  // Llenar los Inputs
-  fechaInput.value = fecha;
-  horaInput.value = hora;
-  puestoInput.value = puesto;
-  marInput.value = mar;
-  vientoInput.value = viento;
-  codigoInput.value = codigo;
+  const configTurno = {
+    mañana: {
+      badge: "Turno Mañana",
+      boton: "Ir a turno tarde",
+      destino: ".././vistas/turnoTarde.html",
+    },
+    tarde: {
+      badge: "Turno Tarde",
+      boton: "Ir a turno mañana",
+      destino: ".././vistas/turnoManana.html",
+    },
+  };
 
-  formulario.querySelector('button[type="submit"]').textContent =
-    "Guardar Cambios";
+  const actual = configTurno[turnoActual];
 
-  editando = true;
+  if (actual) {
+    turnoBadge.textContent = actual.badge;
+    btnCambiarTurno.textContent = actual.boton;
+
+    btnCambiarTurno.addEventListener("click", () => {
+      window.location.href = actual.destino;
+    });
+  }
 }

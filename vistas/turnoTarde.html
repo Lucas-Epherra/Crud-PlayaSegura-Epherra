@@ -31,7 +31,10 @@
         </div>
 
         <div class="topbar-actions">
-          <span class="turn-badge">Turno Tarde</span>
+          <span id="turno-badge" class="turn-badge"></span>
+
+          <button id="btn-cambiar-turno" class="btn switch-turn-btn"></button>
+
           <button id="btn-volver" class="btn btn-outline-light exit-btn">
             Salir / Volver al inicio
           </button>
@@ -66,12 +69,22 @@
             <div class="field-grid">
               <div class="field">
                 <label for="fecha">Fecha</label>
-                <input type="date" id="fecha" name="fecha" class="form-control custom-input" />
+                <input
+                  type="date"
+                  id="fecha"
+                  name="fecha"
+                  class="form-control custom-input"
+                />
               </div>
 
               <div class="field">
                 <label for="hora">Hora</label>
-                <input type="time" id="hora" name="hora" class="form-control custom-input" />
+                <input
+                  type="time"
+                  id="hora"
+                  name="hora"
+                  class="form-control custom-input"
+                />
               </div>
 
               <div class="field">
@@ -135,12 +148,18 @@
 
           <div class="list-block">
             <h3 class="list-title">Base inicial</h3>
-            <ul id="intervencionesEstaticas" class="list-group lista-intervenciones"></ul>
+            <ul
+              id="intervencionesEstaticas"
+              class="list-group lista-intervenciones"
+            ></ul>
           </div>
 
           <div class="list-block">
             <h3 class="list-title">Intervenciones nuevas</h3>
-            <ul id="intervenciones" class="list-group lista-intervenciones"></ul>
+            <ul
+              id="intervenciones"
+              class="list-group lista-intervenciones"
+            ></ul>
           </div>
         </section>
       </main>

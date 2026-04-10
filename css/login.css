@@ -2,10 +2,21 @@
   box-sizing: border-box;
 }
 
+:root {
+  --principal: (#e53935);
+  --secundario: (#ffffff);
+  --terciario: (#fdd835);
+  --detalles: (#1a237e);
+  --texto: (#212121);
+}
+
 body {
-  background-image: url("../imgs/Foto-de-Valen-Vitolla-1-750x536.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: var(--terciario);
+  background: linear-gradient(
+    46deg,
+    rgba(253, 216, 53, 1) 0%,
+    rgba(229, 57, 53, 1) 100%
+  );
 }
 
 .loginSite {
@@ -16,13 +27,12 @@ body {
 }
 
 .titulo {
-  margin: 50px;
+  margin: 2rem;
   font-weight: 700;
-  padding: 15px;
-  background-color: rgba(22, 21, 21, 0.517);
-  border: solid black 1px;
-  border-radius: 15px;
-  color: rgb(255, 225, 0);
+  padding: 1rem;
+  color: #ffe100;
+  text-decoration: underline 4px solid black;
+  text-underline-offset: 0.75rem;
 }
 
 .loginBox {

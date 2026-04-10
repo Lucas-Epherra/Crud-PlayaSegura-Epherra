@@ -417,6 +417,253 @@ svg {
   width: 21px;
 }
 
+/* =========================
+   CRUD ACTION BUTTONS
+   ========================= */
+
+.actions-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+
+.crud-btn {
+  height: 42px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.crud-btn:hover {
+  transform: translateY(-2px);
+}
+
+.crud-btn:focus {
+  outline: none;
+}
+
+.crud-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.crud-btn--edit {
+  background: rgba(45, 200, 234, 0.12);
+  border-color: rgba(45, 200, 234, 0.35);
+  color: #dff8ff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.crud-btn--edit:hover {
+  background: rgba(45, 200, 234, 0.18);
+  border-color: rgba(45, 200, 234, 0.55);
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.18),
+    0 0 0 3px rgba(45, 200, 234, 0.08);
+}
+
+.crud-btn--edit:focus {
+  box-shadow:
+    0 0 0 4px rgba(45, 200, 234, 0.14),
+    0 10px 22px rgba(0, 0, 0, 0.18);
+}
+
+
+.crud-btn--delete {
+  background: rgba(248, 113, 113, 0.12);
+  border-color: rgba(248, 113, 113, 0.34);
+  color: #ffd6d6;
+}
+
+.crud-btn--delete:hover {
+  background: rgba(248, 113, 113, 0.18);
+  border-color: rgba(248, 113, 113, 0.54);
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.18),
+    0 0 0 3px rgba(248, 113, 113, 0.08);
+}
+
+.crud-btn--delete:focus {
+  box-shadow:
+    0 0 0 4px rgba(248, 113, 113, 0.14),
+    0 10px 22px rgba(0, 0, 0, 0.18);
+}
+
+.actions-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+
+.crud-btn:hover {
+  transform: translateY(-2px);
+}
+
+.crud-btn--edit {
+  background: rgba(45, 200, 234, 0.12);
+  border-color: rgba(45, 200, 234, 0.35);
+  color: #dff8ff;
+}
+
+/* =========================
+   SWEETALERT CUSTOM THEME
+   ========================= */
+
+.swal-popup-custom {
+  border-radius: 24px !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: linear-gradient(
+    180deg,
+    rgba(17, 42, 78, 0.92) 0%,
+    rgba(10, 26, 49, 0.96) 100%
+  ) !important;
+  color: #f4f7fb !important;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.38) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 1.8rem 1.4rem 1.4rem !important;
+}
+
+.swal-title-custom {
+  color: #f4f7fb !important;
+  font-size: 1.7rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.03em !important;
+}
+
+.swal-text-custom {
+  color: #a9b8d0 !important;
+  font-size: 1rem !important;
+  line-height: 1.6 !important;
+}
+
+.swal-confirm-custom,
+.swal-cancel-custom {
+  min-width: 150px;
+  height: 48px;
+  border: none !important;
+  border-radius: 14px !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  box-shadow: none !important;
+}
+
+.swal-confirm-custom {
+  background: linear-gradient(180deg, #f87171 0%, #ef4444 100%) !important;
+  color: #fff !important;
+}
+
+.swal-confirm-custom:hover {
+  filter: brightness(1.05);
+}
+
+.swal-cancel-custom {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #f4f7fb !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+}
+
+.swal-cancel-custom:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.swal2-icon.swal2-warning {
+  border-color: rgba(251, 191, 36, 0.5) !important;
+  color: #fbbf24 !important;
+}
+
+.swal2-icon.swal2-success {
+  border-color: rgba(52, 211, 153, 0.45) !important;
+  color: #34d399 !important;
+}
+
+.swal2-popup .swal2-actions {
+  gap: 10px;
+}
+
+.custom-alert {
+  background: rgba(7, 18, 40, 0.96);
+  color: #eaf4ff;
+  border: 1px solid rgba(80, 180, 255, 0.18);
+  border-radius: 22px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.02) inset,
+    0 20px 60px rgba(0, 0, 0, 0.45),
+    0 0 30px rgba(0, 140, 255, 0.12);
+  padding: 2rem 1.5rem;
+  width: 32rem;
+}
+
+.custom-alert-title {
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: .5rem;
+}
+
+.custom-alert-text {
+  color: rgba(230, 240, 255, 0.78);
+  font-size: 1.05rem;
+}
+
+.custom-alert-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 1.5rem;
+}
+
+.custom-alert-confirm,
+.custom-alert-cancel {
+  border: none;
+  border-radius: 14px;
+  padding: 12px 22px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.custom-alert-confirm {
+  background: linear-gradient(135deg, #ff4d4d, #d72638);
+  color: white;
+  box-shadow: 0 8px 20px rgba(215, 38, 56, 0.28);
+}
+
+.custom-alert-confirm:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(215, 38, 56, 0.38);
+}
+
+.custom-alert-cancel {
+  background: rgba(37, 193, 255, 0.15);
+  color: #8fe8ff;
+  border: 1px solid rgba(37, 193, 255, 0.25);
+}
+
+.custom-alert-cancel:hover {
+  background: rgba(37, 193, 255, 0.22);
+  transform: translateY(-2px);
+}
+
+/* Fondo oscuro del modal */
+.swal2-backdrop-show {
+  background: rgba(2, 8, 20, 0.72) !important;
+  backdrop-filter: blur(4px);
+}
+
 /* RESPONSIVE */
 
 @media (max-width: 992px) {
@@ -481,3 +728,4 @@ svg {
     font-size: 1.15rem;
   }
 }
+

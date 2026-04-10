@@ -11,7 +11,7 @@ const goToTurno = (turno, isDemo = false) => {
   if (turno === "tarde") {
     window.location.href = "./vistas/turnoTarde.html";
   } else {
-    window.location.href = "./vistas/turnoMañana.html";
+    window.location.href = "./vistas/turnoManana.html";
   }
 };
 

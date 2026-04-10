@@ -1,7 +1,7 @@
 const turnoGuardado = JSON.parse(localStorage.getItem("encargado turno"));
 const turnoEsperado = document.body.dataset.turno;
 
-if (!turnoGuardado || turnoGuardado !== turnoEsperado) {
+if (!turnoGuardado) {
   window.location.href = "../index.html";
 }
 

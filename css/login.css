@@ -50,7 +50,7 @@ body {
     linear-gradient(rgba(4, 14, 28, 0.56), rgba(4, 14, 28, 0.82)),
     radial-gradient(circle at 52% 24%, rgba(85, 150, 255, 0.32), transparent 30%),
     radial-gradient(circle at 80% 40%, rgba(130, 185, 255, 0.14), transparent 20%),
-    url("../imgs/playa-login-bg.png") center center / cover no-repeat fixed;
+    url("../imgs/playa-login-bg.webp") center center / cover no-repeat fixed;
 }
 
 body::before {

@@ -49,7 +49,7 @@ body {
     linear-gradient(rgba(4, 14, 28, 0.58), rgba(4, 14, 28, 0.84)),
     radial-gradient(circle at 52% 24%, rgba(85, 150, 255, 0.28), transparent 30%),
     radial-gradient(circle at 80% 40%, rgba(130, 185, 255, 0.14), transparent 22%),
-    url("../imgs/playa-login-bg.png") center center / cover no-repeat fixed;
+    url("../imgs/playa-login-bg.webp") center center / cover no-repeat fixed;
   overflow-x: hidden;
   position: relative;
 }

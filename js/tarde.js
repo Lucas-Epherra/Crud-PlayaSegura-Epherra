@@ -74,16 +74,14 @@ function eventListeners() {
   codigoInput.addEventListener("change", datosInterv);
 }
 
-let intervObj = [
-  {
-    fecha: "",
-    puesto: "",
-    mar: "",
-    viento: "",
-    codigo: "",
-    hora: "",
-  },
-];
+let intervObj = {
+  fecha: "",
+  hora: "",
+  puesto: "",
+  mar: "",
+  viento: "",
+  codigo: "",
+};
 
 function datosInterv(e) {
   // Obtener el Input
@@ -219,18 +217,10 @@ function nuevaInterv(e) {
   const { fecha, hora, puesto, mar, viento, codigo } = intervObj;
 
   // Validar
-  if (
-    fecha === "" ||
-    hora === "" ||
-    puesto === "" ||
-    mar === "" ||
-    viento === "" ||
-    codigo === ""
-  ) {
-    ui.imprimirAlerta("Todos los campos son Obligatorios", "error");
-
-    return;
-  }
+ if (!fecha || !hora || !puesto || !mar || !viento || !codigo) {
+  ui.imprimirAlerta("Todos los campos son obligatorios", "error");
+  return;
+}
   // Estamos editando
 
   if (editando) {
@@ -291,15 +281,18 @@ function nuevaInterv(e) {
   formulario.reset();
 }
 
+//reiniciar objeto
 function reiniciarObjeto() {
-  // Reiniciar el objeto
-  intervObj.fecha = "";
-  intervObj.hora = "";
-  intervObj.puesto = "";
-  intervObj.mar = "";
-  intervObj.viento = "";
-  intervObj.codigo = "";
+  intervObj = {
+    fecha: "",
+    hora: "",
+    puesto: "",
+    mar: "",
+    viento: "",
+    codigo: "",
+  };
 }
+
 function eliminarInterv(id) {
   Swal.fire({
     title: "¿Eliminar registro?",

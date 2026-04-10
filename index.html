@@ -1,86 +1,103 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
       crossorigin="anonymous"
     />
+
     <link rel="stylesheet" href="./css/login.css" />
-    <link rel="shorcut icon" href="./imgs/favicon.ico" />
+    <link rel="shortcut icon" href="./imgs/favicon.ico" />
+
     <title>Playa Segura</title>
   </head>
 
   <body>
-    <!-------------------- comienzo del main --------------------->
+    <header class="hero-header">
+      <div class="brand">
+        <div class="brand__icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M12 2 4 5v6c0 5.2 3.4 9.8 8 11 4.6-1.2 8-5.8 8-11V5l-8-3Zm0 2.2 6 2.2v4.6c0 4.1-2.5 7.9-6 9-3.5-1.1-6-4.9-6-9V6.4l6-2.2Zm0 3.1a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6Zm-5.3 10c1.2-2 3.2-3.2 5.3-3.2s4.1 1.2 5.3 3.2"
+            />
+          </svg>
+        </div>
+
+        <div class="brand__text">
+          <h1 class="titulo">Playa Segura</h1>
+        </div>
+      </div>
+    </header>
+
     <main>
-      <div class="loginSite">
-        <!-- titulo -->
-        <h1 class="titulo">Control De Playa </h1>
-
-        <!-- login box -->
-
+      <section class="loginSite">
         <div id="container-login" class="loginBox">
-          <h3 class="tituloLogin">Inicio de sesion</h3>
+          <h2 class="tituloLogin">Iniciar Sesión</h2>
+          <p class="subtituloLogin">Acceso al panel operativo</p>
 
-          <!-- formulario de login -->
           <form action="" class="formulario">
-            <label for="usuario" class="label">Usuario :</label>
-
+            <label for="usuario" class="label">Usuario</label>
             <input
               type="text"
               name="usuario"
               id="usuario"
               class="inputs"
-              placeholder="usuario"
+              placeholder="Usuario"
+              autocomplete="username"
             />
 
-            <label for="contraseña" class="label">Password :</label>
-
+            <label for="contraseña" class="label">Contraseña</label>
             <input
               type="password"
               name="contraseña"
               id="contraseña"
               class="inputs"
-              placeholder="contraseña"
+              placeholder="Contraseña"
+              autocomplete="current-password"
             />
 
             <input
               type="button"
-              value="Iniciar sesión"
+              value="Entrar al sistema"
               id="btn-login"
               class="btn btn-primary boton"
             />
 
-            <p class="text-center text-light mt-3 mb-2">
-              Acceso rápido para visualizar la demo del sistema
-            </p>
+            <div class="demo-block">
+              <p class="demo-text">Ver demo rápida</p>
 
-            <div class="mt-3 d-flex gap-2 justify-content-center flex-wrap">
-              <button
-                type="button"
-                id="btn-demo-manana"
-                class="btn btn-outline-light"
-              >
-                Demo turno mañana
-              </button>
+              <div class="demo-actions">
+                <button
+                  type="button"
+                  id="btn-demo-manana"
+                  class="btn btn-outline-light"
+                >
+                  Turno Mañana
+                </button>
 
-              <button
-                type="button"
-                id="btn-demo-tarde"
-                class="btn btn-outline-light"
-              >
-                Demo turno tarde
-              </button>
+                <button
+                  type="button"
+                  id="btn-demo-tarde"
+                  class="btn btn-outline-light"
+                >
+                  Turno Tarde
+                </button>
+              </div>
             </div>
           </form>
         </div>
-      </div>
+      </section>
     </main>
+
+    <footer class="footer">
+      Copyright 2027 - Desarrollado por Lucas Epherra
+    </footer>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"

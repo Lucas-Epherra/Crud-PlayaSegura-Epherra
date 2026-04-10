@@ -3,16 +3,19 @@ let user;
 let password;
 
 // funcion reutilizable para entrar a una vista
+
 const goToTurno = (turno, isDemo = false) => {
   localStorage.setItem("encargado turno", JSON.stringify(turno));
   localStorage.setItem("modoDemo", JSON.stringify(isDemo));
 
   if (turno === "tarde") {
-    window.location = "./vistas/turnoTarde.html";
-  } else if (turno === "mañana") {
-    window.location = "./vistas/turnoMañana.html";
+    window.location.href = "./vistas/turnoTarde.html";
+  } else {
+    window.location.href = "./vistas/turnoMañana.html";
   }
 };
+
+
 
 // funcion de login con validacion de usuario
 const login = () => {

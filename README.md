@@ -1,156 +1,119 @@
 # PlayaSegura
 
-PlayaSegura es un sistema de gestión de incidencias orientado a municipios y servicios de guardavidas, diseñado para registrar eventos diarios, organizar información operativa y sentar una base sólida para el análisis estadístico y la toma de decisiones.
+PlayaSegura is a web application built to register lifeguard interventions and daily incidents in a clear, organized, and scalable way.
 
-## Demo
+The project is designed as a practical solution for municipalities and lifeguard services that need to track operational activity, store records efficiently, and build a solid foundation for future analytics and decision-making.
 
-🔗 [Ver demo online](https://playa-segura.netlify.app/)
+## Live Demo
 
-## Repositorio
+[View Live Demo](https://playa-segura.netlify.app/)
 
-🔗 [Ver código en GitHub](https://github.com/Lucas-Epherra/Crud-PlayaSegura-Epherra)
+## Repository
 
----
+[View Source Code](https://github.com/Lucas-Epherra/Registro-De-Intervenciones)
 
-## Descripción
+## About the Project
 
-Este proyecto surge a partir de una necesidad concreta: contar con una herramienta que permita registrar de forma clara y ordenada los eventos ocurridos durante el servicio de guardavidas.
+PlayaSegura was created with a real-world use case in mind.
 
-En muchos casos, este tipo de información queda dispersa, se registra manualmente o no puede aprovecharse fácilmente para analizar patrones de intervención. PlayaSegura propone una solución digital para centralizar esos datos y convertirlos en una base útil para futuras métricas, reportes y visualizaciones.
+In many operational environments, daily interventions are recorded manually or in fragmented formats, which makes later analysis difficult. This project aims to centralize that information in a simple digital system where incidents can be registered, displayed, edited, and stored in an organized way.
 
-A partir de estos registros, el sistema puede ayudar a responder preguntas clave como:
+Beyond basic CRUD functionality, the long-term goal of the project is to support data-driven decisions such as:
 
-- ¿Qué zonas requieren mayor cobertura?
-- ¿Qué tipo de intervenciones ocurren con más frecuencia?
-- ¿Es necesario reforzar personal en ciertos sectores?
-- ¿Qué recursos o elementos se necesitan con mayor frecuencia?
-- ¿Cómo evoluciona la actividad operativa con el tiempo?
+- identifying high-incident areas
+- improving staff distribution
+- evaluating resource needs
+- analyzing intervention patterns over time
+- supporting operational planning with real data
 
----
+## Main Features
 
-## Objetivo del proyecto
+- Create new intervention records
+- Display incidents in a structured table
+- Edit existing records
+- Delete records
+- Persist data locally
+- Provide a simple and practical interface for daily use
 
-El objetivo de PlayaSegura es transformar registros operativos cotidianos en información útil para la gestión del servicio.
+## Problem It Solves
 
-Más allá de las operaciones básicas de alta, edición y eliminación de datos, el proyecto busca funcionar como una base escalable para el desarrollo de dashboards, estadísticas y herramientas de apoyo para la planificación de recursos en contextos reales.
+Lifeguard services often need better visibility into what happens during daily operations.
 
----
+Without structured data, it becomes harder to answer important questions such as:
 
-## Funcionalidades principales
+- Which areas require more coverage?
+- What types of incidents happen most often?
+- Are more staff members needed in specific locations?
+- What equipment is most frequently required?
+- How does operational activity change over time?
 
-- Registro de incidencias ocurridas durante la jornada
-- Visualización de eventos en una tabla organizada
-- Edición y eliminación de registros
-- Persistencia de datos del proyecto
-- Interfaz orientada a una carga rápida y clara de información
-- Base preparada para futuras visualizaciones y métricas
+PlayaSegura helps turn daily records into useful operational information.
 
----
+## Tech Stack
 
-## Caso de uso
+- HTML5
+- CSS3
+- JavaScript
+- LocalStorage
+- Netlify
 
-PlayaSegura está pensado para contextos donde un servicio de guardavidas necesita llevar control de intervenciones, observaciones y eventos diarios.
+## Project Structure
 
-El sistema permite construir una base de datos operativa que, con el tiempo, puede utilizarse para:
+# Bash
+├── css/
+├── imgs/
+├── js/
+├── json/
+├── vistas/
+└── index.html
+Local Setup
 
-- analizar frecuencia de incidentes
-- detectar zonas críticas
-- justificar distribución de personal
-- evaluar necesidad de equipamiento
-- generar reportes históricos por temporada
+## Clone the repository:
 
----
+git clone https://github.com/Lucas-Epherra/Registro-De-Intervenciones.git
+cd Registro-De-Intervenciones
 
-## Tecnologías utilizadas
+Then open index.html in your browser, or run the project using Live Server in Visual Studio Code.
 
-- **HTML5**
-- **CSS3**
-- **JavaScript**
-- **LocalStorage** para persistencia en el entorno actual
-- **Netlify** para deploy del proyecto
+## What I Practiced
 
----
+This project helped me strengthen and apply skills such as:
 
-## Estructura y enfoque técnico
+DOM manipulation
+form handling and validation
+dynamic rendering
+CRUD logic with vanilla JavaScript
+local data persistence
+frontend structure based on a real operational use case
+Challenges
 
-El proyecto fue desarrollado con una arquitectura simple y clara, priorizando:
+## Some of the main challenges during development were:
 
-- manipulación del DOM
-- gestión de formularios
-- validación de datos
-- persistencia local
-- renderizado dinámico de registros
-- lógica CRUD sobre una interfaz enfocada en usabilidad
+organizing the create, edit, and delete flows clearly
+keeping the interface simple and practical
+structuring data with future analytics in mind
+building a project with real-world value instead of a generic demo app
+Future Improvements
 
-Además de la parte visual, el foco estuvo en construir una lógica que represente una necesidad operativa real, y no solamente una práctica aislada de frontend.
+The next step for PlayaSegura is to evolve from a record-management tool into a more complete operational platform.
 
----
+## Planned improvements include:
 
-## Capturas del proyecto
+charts and statistics dashboard
+filters by date, area, or event type
+exportable reports
+backend and database integration
+authentication and user roles
+seasonal data history
+advanced analytics for service planning
+Why This Project Matters
 
-> Aquí puedes agregar screenshots para que el repositorio se vea mucho más sólido.
+PlayaSegura is not just a basic CRUD project.
 
-### Pantalla De Login
+It represents my approach to building frontend applications with real-world purpose, focusing not only on interface development but also on how software can solve operational problems and support better decisions through organized data.
 
-![Pantalla Login](./imgs/loginView.png)
+Author
 
-### Vista Principal
-
-![Vista Principal](./imgs/vistaPrincipal.png)
-
-* En todo momento puedes alternar desde el turno tarde hacia el turno mañana mediante el boton de cambiar de turno que esta ubicado arriba a la derecha.
-
-### Instalacion y uso local
-
-Si quieres ejecutar el proyecto en tu entorno local:
-
-git clone https://github.com/Lucas-Epherra/Crud-PlayaSegura-Epherra.git
-
-Luego abre la carpeta del proyecto y ejecuta el archivo index.html en tu navegador o levántalo con una extensión como Live Server en VS Code.
-
----
-
-### Aprendizajes del proyecto
-
-Durante el desarrollo de PlayaSegura trabajé y reforcé conceptos como:
-
-estructuración de interfaces enfocadas en un caso de uso real
-manejo de eventos y formularios en JavaScript
-renderizado dinámico de información en tablas
-organización de lógica CRUD en frontend
-persistencia de datos en el navegador
-diseño de una solución escalable a futuro
-
-Este proyecto también me permitió pensar el desarrollo no solo desde la parte técnica, sino desde la utilidad real que puede tener una aplicación para una organización o servicio.
-
----
-
-### Desafíos encontrados
-
-Algunos de los principales desafíos del desarrollo fueron:
-
-organizar correctamente la lógica de carga, edición y eliminación de registros
-mantener la interfaz clara y fácil de usar
-estructurar los datos para que en el futuro puedan aprovecharse en estadísticas o dashboards
-pensar el proyecto como una solución real y no solo como una práctica técnica
-Posibles mejoras futuras
-gráficos estadísticos de incidencias
-filtros por fecha, tipo de evento o zona
-panel de métricas operativas
-exportación de datos
-integración con backend y base de datos
-autenticación de usuarios
-gestión de roles
-historial por temporadas
-dashboard analítico para municipios
-Valor del proyecto
-
----
-
-PlayaSegura busca demostrar cómo una aplicación web puede aportar valor real cuando combina desarrollo frontend, organización de datos y lógica de negocio orientada a una necesidad concreta.
-
-Más que un CRUD tradicional, este proyecto plantea una base funcional para una herramienta de gestión operativa con potencial de crecimiento.
-
-Autor: Lucas Epherra
+Lucas Epherra
 
 GitHub: Lucas-Epherra

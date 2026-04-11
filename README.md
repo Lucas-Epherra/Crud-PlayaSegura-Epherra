@@ -69,6 +69,19 @@ PlayaSegura helps turn daily records into useful operational information.
 └── index.html
 ```
 
+## Capturas Del Proyecto
+
+```md
+
+### Pantalla de login
+![Pantalla Login](./imgs/loginView.png)
+
+
+### Vista Principal
+![Vista principal](./imgs/vistaPrincipal.png)
+
+```
+
 ## Local Setup
 
 Clone the repository:

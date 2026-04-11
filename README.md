@@ -108,7 +108,10 @@ seasonal data history
 advanced analytics for service planning
 Why This Project Matters
 
+<<<<<<< HEAD
 PlayaSegura is not just a basic CRUD project.
+=======
+>>>>>>> b659c9fa0f6a4efc71aa1f7def57b9e17ed647bc
 
 It represents my approach to building frontend applications with real-world purpose, focusing not only on interface development but also on how software can solve operational problems and support better decisions through organized data.
 

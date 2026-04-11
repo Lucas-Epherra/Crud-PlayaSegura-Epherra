@@ -66,11 +66,11 @@ body::before {
 }
 
 body[data-turno="mañana"] {
-  --turno-accent: #38bdf8;
+  --turno-accent: #00ff00;
 }
 
 body[data-turno="tarde"] {
- --turno-accent: #38bdf8;
+ --turno-accent: #00ff00;
 }
 
 .app-shell {

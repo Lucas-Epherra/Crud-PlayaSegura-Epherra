@@ -59,16 +59,19 @@ PlayaSegura helps turn daily records into useful operational information.
 
 ## Project Structure
 
-# Bash
+
+```bash
 ├── css/
 ├── imgs/
 ├── js/
 ├── json/
 ├── vistas/
 └── index.html
-Local Setup
+```
 
-## Clone the repository:
+## Local Setup
+
+Clone the repository:
 
 git clone https://github.com/Lucas-Epherra/Registro-De-Intervenciones.git
 cd Registro-De-Intervenciones

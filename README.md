@@ -88,7 +88,6 @@ Además de la parte visual, el foco estuvo en construir una lógica que represen
 
 ## Capturas del proyecto
 
-> Aquí puedes agregar screenshots para que el repositorio se vea mucho más sólido.
 
 ### Pantalla De Login
 

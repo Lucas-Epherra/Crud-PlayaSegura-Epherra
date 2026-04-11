@@ -104,7 +104,7 @@ Además de la parte visual, el foco estuvo en construir una lógica que represen
 
 ---
 
-Instalación y uso local
+### Instalacion y uso local
 
 Si quieres ejecutar el proyecto en tu entorno local:
 
@@ -112,7 +112,9 @@ git clone https://github.com/Lucas-Epherra/Crud-PlayaSegura-Epherra.git
 
 Luego abre la carpeta del proyecto y ejecuta el archivo index.html en tu navegador o levántalo con una extensión como Live Server en VS Code.
 
-Aprendizajes del proyecto
+---
+
+### Aprendizajes del proyecto
 
 Durante el desarrollo de PlayaSegura trabajé y reforcé conceptos como:
 
@@ -125,7 +127,9 @@ diseño de una solución escalable a futuro
 
 Este proyecto también me permitió pensar el desarrollo no solo desde la parte técnica, sino desde la utilidad real que puede tener una aplicación para una organización o servicio.
 
-Desafíos encontrados
+---
+
+### Desafíos encontrados
 
 Algunos de los principales desafíos del desarrollo fueron:
 
@@ -144,6 +148,8 @@ gestión de roles
 historial por temporadas
 dashboard analítico para municipios
 Valor del proyecto
+
+---
 
 PlayaSegura busca demostrar cómo una aplicación web puede aportar valor real cuando combina desarrollo frontend, organización de datos y lógica de negocio orientada a una necesidad concreta.
 

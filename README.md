@@ -71,16 +71,12 @@ PlayaSegura helps turn daily records into useful operational information.
 
 ## Capturas Del Proyecto
 
-```md
-
 ### Pantalla de login
 ![Pantalla Login](./imgs/loginView.png)
 
 
 ### Vista Principal
 ![Vista principal](./imgs/vistaPrincipal.png)
-
-```
 
 ## Local Setup
 

@@ -91,5 +91,64 @@ Además de la parte visual, el foco estuvo en construir una lógica que represen
 > Aquí puedes agregar screenshots para que el repositorio se vea mucho más sólido.
 
 ### Pantalla principal
-```md
+
 ![Pantalla principal](./assets/screenshot-home.png)
+
+### Formulario de carga
+
+![Formulario de carga](./assets/screenshot-formulario.png)
+
+### Tabla de incidencias
+
+![Tabla de incidencias](./assets/screenshot-tabla.png)
+
+---
+
+Instalación y uso local
+
+Si quieres ejecutar el proyecto en tu entorno local:
+
+git clone https://github.com/Lucas-Epherra/Crud-PlayaSegura-Epherra.git
+
+Luego abre la carpeta del proyecto y ejecuta el archivo index.html en tu navegador o levántalo con una extensión como Live Server en VS Code.
+
+Aprendizajes del proyecto
+
+Durante el desarrollo de PlayaSegura trabajé y reforcé conceptos como:
+
+estructuración de interfaces enfocadas en un caso de uso real
+manejo de eventos y formularios en JavaScript
+renderizado dinámico de información en tablas
+organización de lógica CRUD en frontend
+persistencia de datos en el navegador
+diseño de una solución escalable a futuro
+
+Este proyecto también me permitió pensar el desarrollo no solo desde la parte técnica, sino desde la utilidad real que puede tener una aplicación para una organización o servicio.
+
+Desafíos encontrados
+
+Algunos de los principales desafíos del desarrollo fueron:
+
+organizar correctamente la lógica de carga, edición y eliminación de registros
+mantener la interfaz clara y fácil de usar
+estructurar los datos para que en el futuro puedan aprovecharse en estadísticas o dashboards
+pensar el proyecto como una solución real y no solo como una práctica técnica
+Posibles mejoras futuras
+gráficos estadísticos de incidencias
+filtros por fecha, tipo de evento o zona
+panel de métricas operativas
+exportación de datos
+integración con backend y base de datos
+autenticación de usuarios
+gestión de roles
+historial por temporadas
+dashboard analítico para municipios
+Valor del proyecto
+
+PlayaSegura busca demostrar cómo una aplicación web puede aportar valor real cuando combina desarrollo frontend, organización de datos y lógica de negocio orientada a una necesidad concreta.
+
+Más que un CRUD tradicional, este proyecto plantea una base funcional para una herramienta de gestión operativa con potencial de crecimiento.
+
+Autor: Lucas Epherra
+
+GitHub: Lucas-Epherra

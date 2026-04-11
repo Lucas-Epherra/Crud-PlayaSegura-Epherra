@@ -90,19 +90,15 @@ Además de la parte visual, el foco estuvo en construir una lógica que represen
 
 > Aquí puedes agregar screenshots para que el repositorio se vea mucho más sólido.
 
-### Pantalla principal
+### Pantalla De Login
 
-![Pantalla principal](./assets/screenshot-home.png)
+![Pantalla Login](./imgs/loginView.png)
 
-### Formulario de carga
+### Vista Principal
 
-![Formulario de carga](./assets/screenshot-formulario.png)
+![Vista Principal](./imgs/vistaPrincipal.png)
 
-### Tabla de incidencias
-
-![Tabla de incidencias](./assets/screenshot-tabla.png)
-
----
+* En todo momento puedes alternar desde el turno tarde hacia el turno mañana mediante el boton de cambiar de turno que esta ubicado arriba a la derecha.
 
 ### Instalacion y uso local
 
